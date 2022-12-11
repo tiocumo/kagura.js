@@ -1,0 +1,8 @@
+{
+  "root":"./src/",
+  "main":"main.js",
+  "split":{
+    "start":"{{/",
+    "end":"/}}"
+  }
+}
