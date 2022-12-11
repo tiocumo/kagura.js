@@ -333,3 +333,4 @@ const kagura=function(){
     
     return kagura;
   }();
+console.log("Kagura.js")
