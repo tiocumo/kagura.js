@@ -11,7 +11,7 @@ def index():
     return f.read()
 @app.route('/kagura.js')
 def kagurajs():
-  yakumo.build("./yakumo.config.json","./dist/kagura.js")
+  yakumo.build("./yakumo.config.json","./dist/kagura.js","./dist/kagura.min.js")
   with open("./dist/kagura.js") as f:
     resp=Response(f.read())
     resp.mimetype="text/javascript"

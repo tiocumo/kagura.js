@@ -1,7 +1,7 @@
 import json
 import re
 import os
-
+from css_html_js_minify import js_minify
 
 class Yakumo:
 
@@ -48,10 +48,14 @@ class Yakumo:
       return main
 
 
-def build(configPath, outPath):
+def build(configPath, outPath,minifyPath=None):
   with open(configPath) as f:
     yakumo = Yakumo(f.read())
   if not os.path.isdir(os.path.dirname(outPath)):
     os.makedirs(os.path.dirname(outPath))
+  b=yakumo.build()
   with open(outPath, "w") as f:
-    f.write(yakumo.build())
+    f.write(b)
+  if(minifyPath):
+    with open(minifyPath,"w") as f:
+      f.write(js_minify(b))
