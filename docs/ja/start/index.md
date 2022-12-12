@@ -11,4 +11,4 @@ const app=kagura.Kagura({
   height:360
 })
 ```
-でスタートします
+でスタートします。
