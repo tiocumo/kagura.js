@@ -194,7 +194,7 @@ const kagura=function(){
       Class.prototype.app=this.app;
       Class.prototype.width=this.app.renderer.width;
       Class.prototype.height=this.app.renderer.height;
-          
+      Class.prototype.backgroundColor=this.options.backgroundColor;
       return new Class();
     }
   mainroop(){
