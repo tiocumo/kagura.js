@@ -6,3 +6,6 @@ venv/
 /.replit
 /replit.nix
 .upm/
+.git/
+/package-lock.json
+/package.json

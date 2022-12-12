@@ -95,7 +95,6 @@ var PIXI=function(t){"use strict";var e=setTimeout;function r(t){return Boolean(
 this.PIXI=this.PIXI||{},function(t,a){"use strict";var r=function(t,a){return r=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(t,a){t.__proto__=a}||function(t,a){for(var r in a)a.hasOwnProperty(r)&&(t[r]=a[r])},r(t,a)};var o=function(t){function o(r,o,n,i,e,h){void 0===h&&(h=0);e=e||i/2;for(var s=-1*Math.PI/2+h,c=2*n,u=a.PI_2/c,l=[],M=0;M<c;M++){var P=M%2?e:i,f=M*u+s;l.push(r+P*Math.cos(f),o+P*Math.sin(f))}return t.call(this,l)||this}return function(t,a){function o(){this.constructor=t}r(t,a),t.prototype=null===a?Object.create(a):(o.prototype=a.prototype,new o)}(o,t),o}(a.Polygon);Object.defineProperties(t.Graphics.prototype,{drawTorus:{value:function(t,a,r,o,n,i){return void 0===n&&(n=0),void 0===i&&(i=2*Math.PI),Math.abs(i-n)>=2*Math.PI?this.drawCircle(t,a,o).beginHole().drawCircle(t,a,r).endHole():(this.finishPoly(),this.arc(t,a,r,i,n,!0).arc(t,a,o,n,i,!1).finishPoly(),this)}},drawChamferRect:{value:function(t,a,r,o,n){if(n<=0)return this.drawRect(t,a,r,o);for(var i=Math.min(n,Math.min(r,o)/2),e=t+r,h=a+o,s=[t+i,a,e-i,a,e,a+i,e,h-i,e-i,h,t+i,h,t,h-i,t,a+i],c=s.length-1;c>=2;c-=2)s[c]===s[c-2]&&s[c-1]===s[c-3]&&s.splice(c-1,2);return this.drawPolygon(s)}},drawFilletRect:{value:function(t,a,r,o,n){if(0===n)return this.drawRect(t,a,r,o);var i=Math.min(r,o)/2,e=Math.min(i,Math.max(-i,n)),h=t+r,s=a+o,c=e<0?-e:0,u=Math.abs(e);return this.moveTo(t,a+u).arcTo(t+c,a+c,t+u,a,u).lineTo(h-u,a).arcTo(h-c,a+c,h,a+u,u).lineTo(h,s-u).arcTo(h-c,s-c,t+r-u,s,u).lineTo(t+u,s).arcTo(t+c,s-c,t,s-u,u).closePath()}},drawRegularPolygon:{value:function(t,a,r,o,n){void 0===n&&(n=0),o=Math.max(0|o,3);for(var i=-1*Math.PI/2+n,e=2*Math.PI/o,h=[],s=0;s<o;s++){var c=s*e+i;h.push(t+r*Math.cos(c),a+r*Math.sin(c))}return this.drawPolygon(h)}},drawRoundedPolygon:{value:function(t,a,r,o,n,i){if(void 0===i&&(i=0),o=Math.max(0|o,3),n<=0)return this.drawRegularPolygon(t,a,r,o,i);var e=r*Math.sin(Math.PI/o)-.001;n=Math.min(n,e);for(var h=-1*Math.PI/2+i,s=2*Math.PI/o,c=(o-2)*Math.PI/o/2,u=0;u<o;u++){var l=u*s+h,M=t+r*Math.cos(l),P=a+r*Math.sin(l),f=l+Math.PI+c,v=l-Math.PI-c,d=M+n*Math.cos(f),I=P+n*Math.sin(f),p=M+n*Math.cos(v),w=P+n*Math.sin(v);0===u?this.moveTo(d,I):this.lineTo(d,I),this.quadraticCurveTo(M,P,p,w)}return this.closePath()}},drawStar:{value:function(t,a,r,n,i,e){return void 0===e&&(e=0),this.drawPolygon(new o(t,a,r,n,i,e))}}})}(PIXI,PIXI);
 //# sourceMappingURL=graphics-extras.min.js.map
 
-
 const objSafe=(proto,arg)=>{
   if(typeof(arg)!=="object"){
     return proto;
@@ -105,169 +104,193 @@ const objSafe=(proto,arg)=>{
   }
   return proto;
 };
+
 const kagura=function(){
     const kagura={
-      Kagpi:class{
-        constructor(options){
-          options=objSafe({
-            element:null,
-            fps:30,
-            width:null,
-            height:null,
-            StartScene:class extends kagura.Scene{
-              constructor(){super()}
-            },
-            backgroundColor:"#000",
-            autoFpsControl:true,
-            autoViewSize:false,
-          },options);
-          this.options=options;
-          let pixiArgs={
-            view:options.element,
-            width:options.width,
-            height:options.height,
-            backgroundColor:options.backgroundColor
-          };
-          this.app=new PIXI.Application(pixiArgs);
+      Kagura:class{
+  constructor(options){
+    options=objSafe({
+      element:null,
+      fps:30,
+      width:null,
+      height:null,
+      StartScene:kagura.Scene,
+      backgroundColor:"#000",
+      autoFpsControl:true,
+      autoViewSize:false,
+    },options);
           
-          this.app.renderer.resize(options.width, options.height);
+    this.options=options;
+    const pixiArgs={
+      view:options.element,
+      width:options.width,
+      height:options.height,
+      backgroundColor:options.backgroundColor
+    };
+    this.app=new PIXI.Application(pixiArgs);
           
-          let StartScene=options.StartScene;
-          this.scene=this.newClass(StartScene);
-          if(options.autoViewSize){
-            scaleToWindow(this.app.view);
-            window.addEventListener("resize", () => {
-              scaleToWindow(this.app.view);
-            });
-          }
-          if(options.autoFpsControl)this.fpsHistory=[];
-          this.backgroundColor=options.backgroundColor;
+    this.app.renderer.resize(options.width, options.height);
           
-          this.backFlameTime=new Date();
-        }
-        roop(){
-          let deltaTime=(new Date().getTime()-this.backFlameTime.getTime());
-          this.backFlameTime=new Date();
+    let StartScene=options.StartScene;
+    this.scene=this.newClass(StartScene);
+    if(options.autoViewSize){
+      scaleToWindow(this.app.view);
+      window.addEventListener("resize", () => {
+        scaleToWindow(this.app.view);
+      });
+    }
+    if(options.autoFpsControl)this.fpsHistory=[];
+      this.backgroundColor=options.backgroundColor;
           
-          this.sceneFlame++;
+      this.backFlameTime=new Date();
+    }
+  roop(){
+      // delta time define
+      let deltaTime=(new Date().getTime()-this.backFlameTime.getTime());
+      this.backFlameTime=new Date();
+
+      // scene's flame counter
+      this.sceneFlame++;
+
+      //Update Scene
+      this.scene.update({
+        sceneFlame:this.sceneFlame,
+        sceneTime:(new Date().getTime()-this.sceneStartTime.getTime())/1000,
+        fps:1000/deltaTime,
+        deltaTime:deltaTime,
+        deltaFlame:deltaTime/(1000/this.options.fps)
+      });
+
+      // Chenge Scene
+      if(this.scene.nextScene!==false){
+        //delete children
+        let app=this.app; 
+        this.app.stage.children=[];
         
-          this.scene.update({
-            sceneFlame:this.sceneFlame,
-            sceneTime:(new Date().getTime()-this.sceneStartTime.getTime())/1000,
-            fps:1000/deltaTime,
-            deltaTime:deltaTime,
-            deltaFlame:deltaTime/(1000/this.options.fps)
-          }); //UpDate Scene
+        //chenge
+        this.scene=this.newClass(this.scene.nextScene);
+      } 
+
+      //Update Background color
+      this.app.renderer.backgroundColor=this.scene.backgroundColor;
+      
+      let fps;
+      if(this.options.autoFpsControl){
+        this.fpsHistory.push(1000/deltaTime);
+          if(this.fpsHistory.length===10)this.fpsHistory.shift();
+          let aveFps=this.fpsHistory.reduce((acc,cur) => acc+cur)/this.fpsHistory.length;
+          fps=this.options.fps;
+          fps*=(fps/aveFps);
+      }else{
+        fps=this.options.fps;
+      }
+      setTimeout(this.roop.bind(this),1000/fps); //ReqAnimFrame
+    }
+  
+  newClass(Class){
+      this.sceneFlame=0;
+      this.sceneStartTime=new Date();
           
-          if(this.scene.nextScene!==false){
-            let app=this.app; 
-            this.app.stage.children=[];
-        
-            this.scene=this.newClass(this.scene.nextScene);
-          } // Chenge Scene
+      Class.prototype.app=this.app;
+      Class.prototype.width=this.app.renderer.width;
+      Class.prototype.height=this.app.renderer.height;
           
-          this.app.renderer.backgroundColor=this.scene.backgroundColor;
-          let fps;
-          if(this.options.autoFpsControl){
-            this.fpsHistory.push(1000/deltaTime);
-            if(this.fpsHistory.length===10)this.fpsHistory.shift();
-            let aveFps=this.fpsHistory.reduce((acc,cur) => acc+cur)/this.fpsHistory.length;
-            fps=this.options.fps;
-            fps*=(fps/aveFps);
-          }else{
-            fps=this.options.fps;
-          }
-          setTimeout(this.roop.bind(this),1000/fps); //ReqAnimFrame
-        }
-        newClass(Class){
-          this.sceneFlame=0;
-          this.sceneStartTime=new Date();
-          
-          Class.prototype.app=this.app;
-          Class.prototype.width=this.app.renderer.width;
-          Class.prototype.height=this.app.renderer.height;
-          
-          return new Class();
-        }
-        mainroop(){
-          requestAnimationFrame(this.roop.bind(this));
-        }
-      },
-      Scene:class{
-        constructor(options){
-          this.nextScene=false;
-          this.stage=this.app.stage;
-          this.renderer=this.app.renderer;
-        }
-        exit(nextScene){
-          this.nextScene=nextScene;
-        }
-        update(args){}
-        addChild(...arg){
-          return this.app.stage.addChild(...arg);
-        }
-      },
+      return new Class();
+    }
+  mainroop(){
+    // start system
+    requestAnimationFrame(this.roop.bind(this));
+  }
+},
+      Scene:/*
+  Class "Scene"
+  KaguraApp's Root Scene
+*/
+class{
+  constructor(options){
+    this.nextScene=false;
+    this.stage=this.app.stage;
+    this.renderer=this.app.renderer;
+  }
+  exit(nextScene){
+    // Chenge Scene
+    this.nextScene=nextScene;
+  }
+  update(args){}
+  addChild(...arg){
+      return this.app.stage.addChild(...arg);
+  }
+},
       obj:{
         shape:{
           isNewTest:"",
           
-          GraphicsProto:class extends PIXI.Graphics{
-            constructor(options){
-              super();
-              options=objSafe({
-                x:0,y:0,rotation:0,alpha:1,scale:{x:1,y:1}
-              },options);
-              this.x=options.x;
-              this.y=options.y;
-              this.rotation=options.rotation;
-              this.alpha=options.alpha;
-              this.scale=options.scale;
-            }
-            addChildTo(target){
-              target.addChild(this);
-              return this;
-            }
-          },
+          GraphicsProto://GraphicsProto
+//Kagura.obj.shape.GraphicsProto
+//shapes prototype
+class extends PIXI.Graphics{
+  constructor(options){
+    super();
+    options=objSafe({
+      x:0,y:0,rotation:0,alpha:1,scale:{x:1,y:1}
+    },options);
+    this.x=options.x;
+    this.y=options.y;
+    this.rotation=options.rotation;
+    this.alpha=options.alpha;
+    this.scale=options.scale;
+  }
+  addChildTo(target){
+    target.addChild(this);
+    return this;
+  }
+}
+
         },
-        Group:class extends PIXI.Container{
-          constructor(options){
-            options=objSafe({
-              x:0,y:0,rotation:0,alpha:1
-            },options);
-            super();
-            this.x=options.x;
-            this.y=options.y;
-            this.rotation=options.rotation;
-            this.alpha=options.alpha;
-          }
-          addChildTo(terget){
-            terget.addChild(this);
-            return this;
-          }
-          each(func){
-            let deletes=[];
-            this.children.forEach((elem,index)=>{
-              const result=func.call(elem,elem,index);
-              if(result===true){deletes.push(index)}
-            });
-            deletes.reverse().forEach(index=>this.children.splice(index,1));
-            return this;
-          }
-        }
+        Group://Group
+//kagura.obj.Group
+//kagura objects bindle
+class extends PIXI.Container{
+  constructor(options){
+    options=objSafe({
+      x:0,y:0,rotation:0,alpha:1
+    },options);
+    super();
+    this.x=options.x;
+    this.y=options.y;
+    this.rotation=options.rotation;
+    this.alpha=options.alpha;
+  }
+  addChildTo(terget){
+    terget.addChild(this);
+    return this;
+  }
+  each(func){
+    let deletes=[];
+    this.children.forEach((elem,index)=>{
+      const result=func.call(elem,elem,index);
+      if(result===true){deletes.push(index)}
+    });
+    deletes.reverse().forEach(index=>this.children.splice(index,1));
+    return this;
+  }
+}
       },
-      Boxer:class{
-        constructor(options){
-          for(let option of Object.keys(options)){
-            this[option]=options[option];
-          }
-        }
-      },
+      Boxer://Boxer
+//kagura.Boxer
+//Object
+class{
+  constructor(options){
+    for(let option of Object.keys(options)){
+      this[option]=options[option];
+    }
+  }
+},
       FullScreen:function(){
-        (document.body.webkitRequestFullscreen||document.body.requestFullscreen||document.body.mozRequestFullScreen)();
-      },
+  (document.body.webkitRequestFullscreen||document.body.requestFullscreen||document.body.mozRequestFullScreen)();
+},
       pixi:PIXI,
     };
-    
     kagura.browser=function(userAgent){
       userAgent=userAgent.toLowerCase();
       if(userAgent.indexOf('msie')!=-1||userAgent.indexOf('trident')!=-1){
@@ -285,28 +308,29 @@ const kagura=function(){
       }else{
         return '';
       }
-    }(window.navigator.userAgent);
+}(window.navigator.userAgent)
+    
   
     kagura.obj.shape.GraphicsFill=class extends kagura.obj.shape.GraphicsProto{
-      constructor(options){
-        options=objSafe({
-          fill:0xffffff
-        },options);
-        super(options);
-        this.beginFill(options.fill);
-        this.pivot.x=0;
-        this.pivot.y=0;
-      }
-    };
+  constructor(options){
+    options=objSafe({
+      fill:0xffffff
+    },options);
+    super(options);
+    this.beginFill(options.fill);
+    this.pivot.x=0;
+    this.pivot.y=0;
+  }
+};
     kagura.obj.shape.Circle=class extends kagura.obj.shape.GraphicsFill{
-      constructor(options){
-        options=objSafe({
-          radius:10
-        },options);
-        super(options);
-        this.drawCircle(0,0,options.radius).endFill();
-      }
-    };
+  constructor(options){
+    options=objSafe({
+      radius:10
+    },options);
+    super(options);
+    this.drawCircle(0,0,options.radius).endFill();
+  }
+}
     kagura.obj.shape.Ellipse=class extends kagura.obj.shape.GraphicsFill{
       constructor(options){
         options=objSafe({
@@ -351,8 +375,8 @@ const kagura=function(){
         },options);
         super(options);
         this.drawRoundedPolygon(0,0,options.radius,options.sides,options.corner,0).endFill();
-      }
-    };
+  }
+};
     kagura.obj.shape.Star=class extends kagura.obj.shape.GraphicsFill{
       constructor(options){
         options=objSafe({
@@ -431,3 +455,4 @@ const kagura=function(){
     
     return kagura;
   }();
+console.log("Kagura.js")

@@ -1,8 +1,12 @@
 import json
 import re
 import os
-from css_html_js_minify import js_minify
+import subprocess
+#from css_html_js_minify import js_minify
+#from jsmin import jsmin
 
+def minify(i,o):
+  subprocess.Popen(["python","minify.py",i,o])
 class Yakumo:
 
   def __init__(self, config):
@@ -57,5 +61,6 @@ def build(configPath, outPath,minifyPath=None):
   with open(outPath, "w") as f:
     f.write(b)
   if(minifyPath):
-    with open(minifyPath,"w") as f:
-      f.write(js_minify(b))
+    minify(outPath,minifyPath)
+    #with open(minifyPath,"w") as f:
+    #  f.write(minify(outPath,minifyPath))
