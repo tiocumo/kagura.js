@@ -1,0 +1,79 @@
+<!doctype html>
+ 
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/styles/default.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.7.0/build/highlight.min.js"></script>
+
+    <title>Kagura.js Docs</title>
+    <meta name="description" content="${description}" />
+    <script src="https://cdn.jsdelivr.net/npm/marked@4.2.4/marked.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <style>
+    </style>
+  </head>
+  <body>
+    <div id="out"></div>
+  </body>
+</html>
+
+<script>
+const m2h=(data="")=>{
+  const htmlTXT=marked.parse(data)
+  let md = document.createElement('div')
+  md.innerHTML=htmlTXT
+  
+  let hTags=[]
+  for(let i=1;i!=7;i++){
+    hTags.push(`h${i}`)
+  }
+  hTags=hTags.join(", ")
+  hTags=md.querySelectorAll(hTags)
+  
+  let aTags=md.querySelectorAll("a")
+  for(let aTag of aTags){
+    let href=aTag.getAttribute("href")
+    if(href[0]===":"){
+      href=href.slice(1)
+      if(href[0]==="/"){
+        //絶対
+        page=href.slice(1).split("/");
+      }else{
+        //相対
+        page.pop();
+        page=page.concat(href.split("/"));
+      }
+    }
+    if(page[page.length-1]===""){
+      page.pop()
+    }
+    
+    aTag.setAttribute("href","#"+page.join("/"))
+  
+  }
+  document.getElementById("out").innerHTML=md.innerHTML;
+  
+  hljs.highlightAll();
+  
+  document.getElementsByTagName("title")[0].textContent=`${md.getElementsByTagName("h1")[0].textContent} -Kagura.js Docs`
+}
+console.log()
+const root="https://raw.githubusercontent.com/tiocumo/kagura.js/main/docs/"
+let page=["index.md"]
+
+function chenge(url){
+  url=url+"?cachedelete="+Math.random().toString(16).slice(-8)
+  $.get(url,data=>{
+    m2h(data)
+  })
+}
+chenge(root+"index.md")
+window.addEventListener('hashchange', ()=>{
+  let req=(root+location.hash.slice(1));
+  chenge(req)
+}, false);
+</script>
