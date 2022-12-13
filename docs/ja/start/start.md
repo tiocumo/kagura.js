@@ -22,4 +22,6 @@ const app=kagura.Kagura({
 });
 app.mainroop(); //起動
 ```
-真っ黒な画面が表示されたはずです
+真っ黒な画面が表示されたはずです。  
+
+次回:[円を追加する](:addcircle.md)
