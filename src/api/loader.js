@@ -1,4 +1,4 @@
-kagura.Loader=class{
+class{
   constructor(loads,loaded){
     if(!loads){
       console.error("Loads arguments is undefined.");return;
