@@ -6,3 +6,4 @@ path=sys.argv[2]
 
 with open(path,"wb") as f:
   f.write(requests.get(url).content)
+  
