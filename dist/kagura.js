@@ -309,7 +309,48 @@ class{
         return '';
       }
 }(window.navigator.userAgent)
+    kagura.obj.Text=//Text
+//kagura.obj.Text
+//kagura text
+class extends kagura.pixi.Text{
+  constructor(options){
+    options=objSafe({
+      text:"",
+      x:0,
+      y:0,
+      fill:0xffffff,
+      align:"left",
+      fontFamily:"Arial",
+      fontSize:26,
+      fontStyle:"normal",
+      fontVariant:"normal",
+      fontWeight:"normal",
+      stroke:"black",
+      strokeThickness:0,
+      
+      
+      options:{}
+    },options);
+    options.options=objSafe({
+      fill:options.fill,
+      align:options.align,
+      fontFamily:options.fontFamily,
+      fontSize:options.fontSize,
+      fontVariant:options.fontVariant,
+      fontWeight:options.fontWeight,
+      stroke:options.stroke,
+      strokeThickness:options.strokeThickness,
+    },options.options);
     
+    super(options.text,options.options);
+    
+    this.x=options.x;
+    this.y=options.y;
+  }
+  addChildTo(terget){
+    terget.addChild(terget);
+  }
+}
   
     kagura.obj.shape.GraphicsFill=class extends kagura.obj.shape.GraphicsProto{
   constructor(options){
@@ -415,7 +456,7 @@ class{
       }
     };
     
-    kagura.Loader=kagura.Loader=class{
+    kagura.Loader=class{
   constructor(loads,loaded){
     if(!loads){
       console.error("Loads arguments is undefined.");return;
@@ -487,27 +528,25 @@ class{
 ;
     
     kagura.obj.Sprite=class extends kagura.pixi.Sprite{
-      constructor(options){
-        super();
-        options=objSafe({
-          texture:void(0),
-          alpha:1,
-          x:0,y:0,
-          width:this.width,height:this.height,
-          
-          startX:0,startY:0,
-          endX:this.width,endY:this.height
-        },options);
-        this.texture=options.texture;
-        this.alpha=options.alpha;
-        this.x=options.x;
-        this.y=options.y;
-      }
-      addChildTo(target){
-        target.addChild(this);return this;
-      }
-      
-    };
+  constructor(options){
+    super();
+    options=objSafe({
+      texture:void(0),
+      alpha:1,
+      x:0,y:0,
+      width:this.width,height:this.height,
+    },options);
+    this.texture=options.texture;
+    this.alpha=options.alpha;
+    this.x=options.x;
+    this.y=options.y;
+  }
+  addChildTo(target){
+    target.addChild(this);
+    return this;
+  }
+};
+;
     
     return kagura;
   }();

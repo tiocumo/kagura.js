@@ -17,7 +17,7 @@ const kagura=function(){
       pixi:PIXI,
     };
     kagura.browser={{!browsercheck.js!}}(window.navigator.userAgent)
-    
+    kagura.obj.Text={{!obj/text.js!}}
   
     kagura.obj.shape.GraphicsFill={{!obj/shape/graphicsfill.js!}};
     kagura.obj.shape.Circle={{!obj/shape/circle.js!}}
