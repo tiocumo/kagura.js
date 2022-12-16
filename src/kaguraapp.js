@@ -31,10 +31,11 @@ class{
       });
     }
     if(options.autoFpsControl)this.fpsHistory=[];
-      this.backgroundColor=options.backgroundColor;
-          
-      this.backFlameTime=new Date();
-    }
+    this.backgroundColor=options.backgroundColor;
+    this.view=this.app.view;
+    this.backFlameTime=new Date();
+    
+  }
   roop(){
       // delta time define
       let deltaTime=(new Date().getTime()-this.backFlameTime.getTime());
@@ -91,5 +92,8 @@ class{
   mainroop(){
     // start system
     requestAnimationFrame(this.roop.bind(this));
+  }
+  fullscreen(){
+    kagura.FullScreen(this.app.view)
   }
 }

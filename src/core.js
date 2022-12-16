@@ -16,6 +16,8 @@ const kagura=function(){
       FullScreen:{{!api/fullscreen.js!}},
       pixi:PIXI,
     };
+    kagura.exitFullscreen=Document.exitFullscreen;
+  
     kagura.browser={{!browsercheck.js!}}(window.navigator.userAgent)
     kagura.obj.Text={{!obj/text.js!}}
   
@@ -35,4 +37,4 @@ const kagura=function(){
     
     return kagura;
   }();
-console.log("Kagura.js")
+console.log("Kagura.js -github.com/tiocumo/kagura.js")

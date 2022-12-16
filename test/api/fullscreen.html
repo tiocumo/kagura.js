@@ -1,0 +1,16 @@
+<script src="/dist/kagura.js"></script>
+<canvas id="c"></canvas>
+<script>
+  
+let elem = document.documentElement;
+function fullsc(){
+  kagura.FullScreen(document.getElementById('c'))
+}
+
+const app=new kagura.Kagura({
+  width:100,
+  height:100,
+  element:document.getElementById("c")
+})
+</script>
+<button id="full" onclick="fullsc()">aaa</button>

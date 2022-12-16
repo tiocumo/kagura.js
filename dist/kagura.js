@@ -140,10 +140,11 @@ const kagura=function(){
       });
     }
     if(options.autoFpsControl)this.fpsHistory=[];
-      this.backgroundColor=options.backgroundColor;
-          
-      this.backFlameTime=new Date();
-    }
+    this.backgroundColor=options.backgroundColor;
+    this.view=this.app.view;
+    this.backFlameTime=new Date();
+    
+  }
   roop(){
       // delta time define
       let deltaTime=(new Date().getTime()-this.backFlameTime.getTime());
@@ -200,6 +201,9 @@ const kagura=function(){
   mainroop(){
     // start system
     requestAnimationFrame(this.roop.bind(this));
+  }
+  fullscreen(){
+    kagura.FullScreen(this.app.view)
   }
 },
       Scene:/*
@@ -286,11 +290,25 @@ class{
     }
   }
 },
-      FullScreen:function(){
-  (document.body.webkitRequestFullscreen||document.body.requestFullscreen||document.body.mozRequestFullScreen)();
+      FullScreen:function(elem){
+  if(!elem){
+    elem=document.documentElement;
+  }
+  function isIn(obj,key){
+    return key in obj;
+  }
+  if(isIn(elem,"webkitRequestFullscreen")){
+    elem.webkitRequestFullscreen();
+  }else if(isIn(elem,"requestFullscreen")){
+    elem.requestFullscreen();
+  }else if(isIn(elem,"mozRequestFullScreen")){
+    elem.mozRequestFullScreen();
+  }
 },
       pixi:PIXI,
     };
+    kagura.exitFullscreen=Document.exitFullscreen;
+  
     kagura.browser=function(userAgent){
       userAgent=userAgent.toLowerCase();
       if(userAgent.indexOf('msie')!=-1||userAgent.indexOf('trident')!=-1){
@@ -550,4 +568,4 @@ class extends kagura.pixi.Text{
     
     return kagura;
   }();
-console.log("Kagura.js")
+console.log("Kagura.js -github.com/tiocumo/kagura.js")
