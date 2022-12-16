@@ -5,3 +5,4 @@ It is a JavaScript's Game framework.
 [Docs by GitHub pages](https://tiocumo.github.io/kagura.js/docs/docs.html)
 ## Build
 ```python build.py```
+dist directory saved.
