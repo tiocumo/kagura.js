@@ -34,7 +34,11 @@ class{
     this.backgroundColor=options.backgroundColor;
     this.view=this.app.view;
     this.backFlameTime=new Date();
-    
+
+    this.keyboard=new kagura.Keyboard(this.view);
+    //this.view.addEventListener('touchstart',e=>{
+    //  
+    //})
   }
   roop(){
       // delta time define
@@ -50,7 +54,9 @@ class{
         sceneTime:(new Date().getTime()-this.sceneStartTime.getTime())/1000,
         fps:1000/deltaTime,
         deltaTime:deltaTime,
-        deltaFlame:deltaTime/(1000/this.options.fps)
+        deltaFlame:deltaTime/(1000/this.options.fps),
+
+        keys:this.keyboard.keys,
       });
 
       // Chenge Scene

@@ -34,7 +34,8 @@ const kagura=function(){
     kagura.Loader={{!api/loader.js!}};
     
     kagura.obj.Sprite={{!obj/sprite.js!}};
-    
+
+    kagura.Keyboard={{!api/keyboard.js!}};
     return kagura;
   }();
 console.log("Kagura.js -github.com/tiocumo/kagura.js")

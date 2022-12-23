@@ -20,11 +20,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.9/lodash.min.js"></script>
     <script src="kagura.js"></script>
     <script>
-      
+      class Test extends kagura.Scene{
+        constructor(){
+          super()
+        }
+        update(a){
+          //console.log(a.keys)
+        }
+      }
       const app=new kagura.Kagura({
         element:document.getElementById("test"),
         width:480,
-        height:360
+        height:360,
+        StartScene:Test
       })
       app.mainroop()
     </script>

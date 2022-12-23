@@ -143,7 +143,11 @@ const kagura=function(){
     this.backgroundColor=options.backgroundColor;
     this.view=this.app.view;
     this.backFlameTime=new Date();
-    
+
+    this.keyboard=new kagura.Keyboard(this.view);
+    //this.view.addEventListener('touchstart',e=>{
+    //  
+    //})
   }
   roop(){
       // delta time define
@@ -159,7 +163,9 @@ const kagura=function(){
         sceneTime:(new Date().getTime()-this.sceneStartTime.getTime())/1000,
         fps:1000/deltaTime,
         deltaTime:deltaTime,
-        deltaFlame:deltaTime/(1000/this.options.fps)
+        deltaFlame:deltaTime/(1000/this.options.fps),
+
+        keys:this.keyboard.keys,
       });
 
       // Chenge Scene
@@ -565,7 +571,23 @@ class extends kagura.pixi.Text{
   }
 };
 ;
-    
+
+    kagura.Keyboard=class{
+  constructor(elem=document){
+    this.keys=[];
+    document.addEventListener("keypress",e=>{
+      if(!this.keys.includes(e.key)){
+        this.keys.push(e.key);
+      }
+    });
+    document.addEventListener("keyup",e=>{
+      const index=this.keys.indexOf(e.key);
+      if(index!==-1){
+        this.keys.splice(index,1);
+      }
+    });
+  }
+};
     return kagura;
   }();
 console.log("Kagura.js -github.com/tiocumo/kagura.js")
