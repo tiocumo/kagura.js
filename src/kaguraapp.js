@@ -30,12 +30,16 @@ class{
         scaleToWindow(this.app.view);
       });
     }
+    
+    this.keyboard=new kagura.Keyboard(document);
+    this.touchs=new kagura.Touches(this.view);
+    
     if(options.autoFpsControl)this.fpsHistory=[];
     this.backgroundColor=options.backgroundColor;
     this.view=this.app.view;
     this.backFlameTime=new Date();
 
-    this.keyboard=new kagura.Keyboard(this.view);
+    
     //this.view.addEventListener('touchstart',e=>{
     //  
     //})
@@ -57,6 +61,7 @@ class{
         deltaFlame:deltaTime/(1000/this.options.fps),
 
         keys:this.keyboard.keys,
+        pointers:this.touchs.get
       });
 
       // Chenge Scene
@@ -100,6 +105,6 @@ class{
     requestAnimationFrame(this.roop.bind(this));
   }
   fullscreen(){
-    kagura.FullScreen(this.app.view)
+    kagura.FullScreen(document)
   }
 }
