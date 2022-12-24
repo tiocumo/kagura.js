@@ -60,7 +60,7 @@ class{
         deltaTime:deltaTime,
         deltaFlame:deltaTime/(1000/this.options.fps),
 
-        keys:this.keyboard.keys,
+        keyboard:this.keyboard,
         pointers:this.touchs.get
       });
 
