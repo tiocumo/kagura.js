@@ -37,6 +37,6 @@ class extends kagura.pixi.Text{
     this.y=options.y;
   }
   addChildTo(terget){
-    terget.addChild(terget);
+    terget.addChild(this);
   }
 }
