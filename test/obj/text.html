@@ -1,1 +1,20 @@
+<script src="../../dist/kagura.js"></script>
+<canvas id="canvas"></canvas>
+<script>
+class TestScene extends kagura.Scene{
+    constructor(){
+        this.text=kagura.obj.Text({
+            text:"Hello world!!"
+        }).addChildTo(this);
+    }
+    update(){
+        this.text.text+=" :)"
+    }
 
+}
+new kagura.Kagura({
+    element:document.getElementById("canvas"),
+    StartScene:TestScene,
+    fps:1,
+}).mainroop();
+</script>
