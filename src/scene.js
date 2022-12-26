@@ -14,6 +14,6 @@ class{
   }
   update(args){}
   addChild(...arg){
-      return this.app.stage.addChild(...arg);
+    return this.app.stage.addChild(...arg);
   }
 }

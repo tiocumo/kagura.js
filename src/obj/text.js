@@ -1,7 +1,7 @@
 //Text
 //kagura.obj.Text
 //kagura text
-class extends kagura.pixi.Text{
+class extends kagura.obj.Object{
   constructor(options){
     options=objSafe({
       text:"",
@@ -16,8 +16,7 @@ class extends kagura.pixi.Text{
       fontWeight:"normal",
       stroke:"black",
       strokeThickness:0,
-      
-      
+      anchor:{x:0,y:0},
       options:{}
     },options);
     options.options=objSafe({
@@ -31,12 +30,9 @@ class extends kagura.pixi.Text{
       strokeThickness:options.strokeThickness,
     },options.options);
     
-    super(options.text,options.options);
-    
-    this.x=options.x;
-    this.y=options.y;
-  }
-  addChildTo(terget){
-    terget.addChild(this);
+    super(new kagura.pixi.Text(options.text,options.options));
+    this.obj.x=options.x;
+    this.obj.y=options.y;
+
   }
 }

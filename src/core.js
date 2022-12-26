@@ -7,8 +7,6 @@ const kagura=function(){
       obj:{
         shape:{
           isNewTest:"",
-          
-          GraphicsProto:{{!obj/shape/graphicsproto.js!}}
         },
         Group:{{!obj/group.js!}}
       },
@@ -19,8 +17,12 @@ const kagura=function(){
     kagura.exitFullscreen=Document.exitFullscreen;
   
     kagura.browser={{!browsercheck.js!}}(window.navigator.userAgent)
+
+    kagura.obj.Object={{!obj/object.js!}}
+    
     kagura.obj.Text={{!obj/text.js!}}
-  
+
+    kagura.obj.shape.GraphicsProto={{!obj/shape/graphicsproto.js!}};
     kagura.obj.shape.GraphicsFill={{!obj/shape/graphicsfill.js!}};
     kagura.obj.shape.Circle={{!obj/shape/circle.js!}}
     kagura.obj.shape.Ellipse={{!obj/shape/ellipse.js!}}

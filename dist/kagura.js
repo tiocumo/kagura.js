@@ -233,34 +233,12 @@ class{
   }
   update(args){}
   addChild(...arg){
-      return this.app.stage.addChild(...arg);
+    return this.app.stage.addChild(...arg);
   }
 },
       obj:{
         shape:{
           isNewTest:"",
-          
-          GraphicsProto://GraphicsProto
-//Kagura.obj.shape.GraphicsProto
-//shapes prototype
-class extends PIXI.Graphics{
-  constructor(options){
-    super();
-    options=objSafe({
-      x:0,y:0,rotation:0,alpha:1,scale:{x:1,y:1}
-    },options);
-    this.x=options.x;
-    this.y=options.y;
-    this.rotation=options.rotation;
-    this.alpha=options.alpha;
-    this.scale=options.scale;
-  }
-  addChildTo(target){
-    target.addChild(this);
-    return this;
-  }
-}
-
         },
         Group://Group
 //kagura.obj.Group
@@ -338,10 +316,34 @@ class{
         return '';
       }
 }(window.navigator.userAgent)
+
+    kagura.obj.Object=class{
+  constructor(object){
+    this.obj=object;
+    for(let key of Object.getOwnPropertyNames(this.obj)){
+      let value=Object.getOwnPropertyDescriptor(this.obj,key);
+      Object.defineProperty(this,key,{
+        get:function(){
+          return this.obj[key];
+        },
+        set:function(c){
+          this.obj[key]=c;
+        }
+      });
+    }
+    this.__proto__=this.obj.__proto__;
+    Object.assign(this.__proto__,{
+      addChildTo:function(terget){
+        terget.addChild(this.obj);return this;
+      }
+    })
+  }
+}
+    
     kagura.obj.Text=//Text
 //kagura.obj.Text
 //kagura text
-class extends kagura.pixi.Text{
+class extends kagura.obj.Object{
   constructor(options){
     options=objSafe({
       text:"",
@@ -356,8 +358,7 @@ class extends kagura.pixi.Text{
       fontWeight:"normal",
       stroke:"black",
       strokeThickness:0,
-      
-      
+      anchor:{x:0,y:0},
       options:{}
     },options);
     options.options=objSafe({
@@ -371,25 +372,48 @@ class extends kagura.pixi.Text{
       strokeThickness:options.strokeThickness,
     },options.options);
     
-    super(options.text,options.options);
-    
-    this.x=options.x;
-    this.y=options.y;
-  }
-  addChildTo(terget){
-    terget.addChild(terget);
+    super(new kagura.pixi.Text(options.text,options.options));
+    this.obj.x=options.x;
+    this.obj.y=options.y;
+
   }
 }
-  
-    kagura.obj.shape.GraphicsFill=class extends kagura.obj.shape.GraphicsProto{
+
+
+    kagura.obj.shape.GraphicsProto=//GraphicsProto
+//Kagura.obj.shape.GraphicsProto
+//shapes prototype
+class extends kagura.obj.Object{
   constructor(options){
+    super(new PIXI.Graphics());
+    options=objSafe({
+      x:0,y:0,rotation:0,alpha:1,scale:{x:1,y:1}
+    },options);
+    this.obj.x=options.x;
+    this.obj.y=options.y;
+    this.obj.rotation=options.rotation;
+    this.obj.alpha=options.alpha;
+    this.obj.scale=options.scale;
+  }
+}
+;
+    kagura.obj.shape.GraphicsFill=class extends kagura.obj.shape.GraphicsProto{
+  constructor(options,draw){
     options=objSafe({
       fill:0xffffff
     },options);
     super(options);
-    this.beginFill(options.fill);
-    this.pivot.x=0;
-    this.pivot.y=0;
+    this.draw=draw;
+    this.options=options;
+    this.obj.beginFill(options.fill);
+    this.draw(this.obj,this.options)
+    this.obj.pivot.x=0;
+    this.obj.pivot.y=0;
+  }
+  set fill(chenge){
+    this.obj.clear();
+    this.obj.beginFill(chenge);
+    this.draw(this.obj,this.options);
   }
 };
     kagura.obj.shape.Circle=class extends kagura.obj.shape.GraphicsFill{
@@ -397,36 +421,44 @@ class extends kagura.pixi.Text{
     options=objSafe({
       radius:10
     },options);
-    super(options);
-    this.drawCircle(0,0,options.radius).endFill();
+    super(options,(obj,options)=>{
+      obj.drawCircle(0,0,options.radius).endFill();
+    });
+  }
+  get radius(){
+    return this.obj.radius;
+  }
+  set radius(chenge){
+    this.obj.radius=chenge;
   }
 }
     kagura.obj.shape.Ellipse=class extends kagura.obj.shape.GraphicsFill{
-      constructor(options){
-        options=objSafe({
-          width:10,height:10
-        },options);
-        super(options);
-        this.drawEllipse(0,0,options.width,options.height).endFill();
-      }
-    };
+  constructor(options){
+    options=objSafe({
+      width:10,height:10
+    },options);
+    super(options,(obj,options)=>{
+      obj.drawEllipse(0,0,options.width,options.height).endFill();
+    });
+  }
+};
     kagura.obj.shape.Path=class extends kagura.obj.shape.GraphicsFill{
   constructor(options){
         //-, 0, -100, 70, -70,
     options=objSafe({
       paths:[[100,0],[70,70],[0,100],[-70,70],[-100,0],[-70,-70],[0,-100],[70,-70]]
     },options);
-    super(options);
-    let paths=[];
-    for(let path of options.paths){
-      if(path.length===2&&Array.isArray(path)){
-        paths.push(path[0],path[1]);
-      }else{
-        console.error("Paths's arguments type is array, and children array's length is 2.");return;
+    super(options,(obj,options)=>{
+      let paths=[];
+      for(let path of options.paths){
+        if(path.length===2&&Array.isArray(path)){
+          paths.push(path[0],path[1]);
+        }else{
+          console.error("Paths's arguments type is array, and children array's length is 2.");return;
+        }
       }
-    }
-    this.drawPolygon(paths).endFill();
-        
+      obj.drawPolygon(paths).endFill();
+    });
   }
 };
     kagura.obj.shape.Rect=class extends kagura.obj.shape.GraphicsFill{
@@ -434,56 +466,72 @@ class extends kagura.pixi.Text{
         options=objSafe({
           width:100,height:100,fillet:0
         },options);
-        super(options);
-        this.drawFilletRect(0,0,options.width,options.height,options.fillet).endFill();
+        super(options,(obj,options)=>{
+          this.drawFilletRect(0,0,options.width,options.height,options.fillet).endFill();
+        });
       }
     };
     kagura.obj.shape.Polygon=class extends kagura.obj.shape.GraphicsFill{
-      constructor(options){
-        options=objSafe({
-          radius:10,sides:1,corner:1
-        },options);
-        super(options);
-        this.drawRoundedPolygon(0,0,options.radius,options.sides,options.corner,0).endFill();
+  constructor(options){
+    options=objSafe({
+      radius:10,sides:1,corner:1
+    },options);
+    super(options,(obj,options)=>{
+      obj.drawRoundedPolygon(0,0,options.radius,options.sides,options.corner,0).endFill();
+    });
   }
 };
     kagura.obj.shape.Star=class extends kagura.obj.shape.GraphicsFill{
-      constructor(options){
-        options=objSafe({
-          points:5,radius:10,innerRadius:20
-        },options);
-        super(options);
-        this.drawStar(0,0,options.points,options.radius,options.innerRadius,0).endFill();
+  constructor(options){
+    options=objSafe({
+      points:5,radius:10,innerRadius:20
+    },options);
+    super(options,(obj,options)=>{
+      this.drawStar(0,0,options.points,options.radius,options.innerRadius,0).endFill();
+    });
       }
-    };
+};
     kagura.obj.shape.Torus=class extends kagura.obj.shape.GraphicsFill{
-      constructor(options){
-        options=objSafe({
-          points:5,radius:10,innerRadius:0,outerRadius:Math.PI*2
-        },options);
-        super(options);
-        this.drawTorus(0,0,options.innerRadius,options.outerRadius,options.startArc,options.endArc).endFill();
-      }
-    };
+  constructor(options){
+    options=objSafe({
+      points:5,radius:10,innerRadius:0,outerRadius:Math.PI*2
+    },options);
+    super(options,(obj,options)=>{
+      this.drawTorus(0,0,options.innerRadius,options.outerRadius,options.startArc,options.endArc).endFill();
+    });
+  }
+};
     kagura.obj.shape.Line=class extends kagura.obj.shape.GraphicsProto{
-      constructor(options){
-        options=objSafe({
-          color:0xffffff,paths:[[0,0],[10,10]],size:1
-        },options);
-        super(options);
-        this.lineStyle(options.size,options.color);
-        let i=0;
-        for(let path of options.paths){
-          i++;
-          if(path.length===2&&Array.isArray(path)){
-            if(i===1){
-              this.moveTo(...path);
-            }
-            this.lineTo(...path);
-          }else{console.error("Paths's arguments type is array, and children array's length is 2.");return;}
-        }
+  constructor(options){
+    options=objSafe({
+      color:0xffffff,paths:[[0,0],[10,10]],size:1
+    },options);
+    super(options);
+    this.options=options;
+    Object.defineProperty(this,"color",{
+      set:function(c){
+        this.options.color=c;
+        this.draw();
       }
-    };
+    })
+    this.draw=()=>{
+      const options=this.options;
+      this.clear();
+      this.lineStyle(options.size,options.color);
+      let i=0;
+      for(let path of options.paths){
+        i++;
+        if(path.length===2&&Array.isArray(path)){
+          if(i===1){
+            this.moveTo(...path);
+          }
+          this.lineTo(...path);
+        }else{console.error("Paths's arguments type is array, and children array's length is 2.");return;}
+      }
+    }
+    this.draw();
+  }
+};
     
     kagura.Loader=class{
   constructor(loads,loaded){

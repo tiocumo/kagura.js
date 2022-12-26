@@ -23,6 +23,19 @@
       class Test extends kagura.Scene{
         constructor(){
           super()
+          const text=new kagura.obj.Text({
+            text:"aajhiugiui"
+          }).addChildTo(this)
+          text.text="a"
+          new kagura.obj.shape.Ellipse({
+            x:100,
+            y:100
+          }).addChildTo(this)
+          const lin=new kagura.obj.shape.Line({
+            
+          }).addChildTo(this)
+          lin.color=0xff0000
+        
         }
         update(a){
           //console.log(a.keys)
