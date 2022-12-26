@@ -1,4 +1,4 @@
-class Sounder{
+class{
   constructor(url){
     this.url=url;
   }
@@ -49,7 +49,6 @@ class Sounder{
       kill(){
         this.elem.remove();
         delete this.elem;
-        console.log(this)
       }
     })(this.url);
   }

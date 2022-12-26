@@ -320,9 +320,14 @@ class{
   }
   make(){
     return new (class{
-      constructor(url){
+      constructor(url,autokill=true){
         this.elem=document.createElement("audio");
         this.elem.src=url;
+        if(autokill){
+          this.elem.addEventListener("ended",()=>{
+            this.kill();
+          });
+        }
       }
       play(){
         this.elem.play();
@@ -357,9 +362,15 @@ class{
       set speed(speed){
         this.elem.playbackRate=speed;
       }
+      kill(){
+        this.elem.remove();
+        delete this.elem;
+        console.log(this)
+      }
     })(this.url);
   }
-};
+}
+;
     kagura.obj.Object=class{
   constructor(object){
     this.obj=object;
