@@ -1,0 +1,9 @@
+<button onclick="play()">Play</button>
+<script src="../../dist/kagura.js"></script>
+<script>
+  function play(){
+    const sounder=new kagura.Sounder("https://cdn.assets.scratch.mit.edu/internalapi/asset/697ecf0012fca1e942c9abbe2e60bd0c.mp3/get/");
+    const sound=sounder.make();
+    sound.play();
+  }
+</script>

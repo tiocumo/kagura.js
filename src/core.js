@@ -8,16 +8,17 @@ const kagura=function(){
         shape:{
           isNewTest:"",
         },
-        
       },
       Boxer:{{!api/boxer.js!}},
-      FullScreen:{{!api/fullscreen.js!}},
+      fullscreen:{{!api/fullscreen.js!}},
       pixi:PIXI,
+      api:{}
     };
     kagura.exitFullscreen=Document.exitFullscreen;
     kagura.Grid={{!api/grid.js!}}
     kagura.browser={{!browsercheck.js!}}(window.navigator.userAgent)
 
+    kagura.Sounder={{!api/sounder.js!}};
     kagura.obj.Object={{!obj/object.js!}}
     
     kagura.obj.Text={{!obj/text.js!}}
@@ -32,7 +33,7 @@ const kagura=function(){
     kagura.obj.shape.Star={{!obj/shape/star.js!}};
     kagura.obj.shape.Torus={{!obj/shape/torus.js!}};
     kagura.obj.shape.Line={{!obj/shape/line.js!}};
-    
+  
     kagura.Loader={{!api/loader.js!}};
     
     kagura.obj.Sprite={{!obj/sprite.js!}};

@@ -140,7 +140,7 @@ const kagura=function(){
       });
     }
     this.view=this.app.view;
-    this.grid=new kagura.Grid(32,this.view.width,this.view.height)
+    this.grid=new kagura.Grid(32,this.view.width,this.view.height);
     this.keyboard=new kagura.Keyboard(document);
     this.touchs=new kagura.Touches(this.view);
     
@@ -171,7 +171,7 @@ const kagura=function(){
         deltaFlame:deltaTime/(1000/this.options.fps),
 
         keyboard:this.keyboard,
-        pointers:this.touchs.get
+        pointers:this.touchs.get,
       });
 
       // Chenge Scene
@@ -208,6 +208,7 @@ const kagura=function(){
       Class.prototype.width=this.app.renderer.width;
       Class.prototype.height=this.app.renderer.height;
       Class.prototype.backgroundColor=this.options.backgroundColor;
+      Class.prototype.grid=this.grid;
       return new Class();
     }
   mainroop(){
@@ -241,7 +242,6 @@ class{
         shape:{
           isNewTest:"",
         },
-        
       },
       Boxer://Boxer
 //kagura.Boxer
@@ -253,7 +253,7 @@ class{
     }
   }
 },
-      FullScreen:function(elem){
+      fullscreen:function(elem){
   if(!elem){
     elem=document.documentElement;
   }
@@ -269,6 +269,7 @@ class{
   }
 },
       pixi:PIXI,
+      api:{}
     };
     kagura.exitFullscreen=Document.exitFullscreen;
     kagura.Grid=(function(){
@@ -313,6 +314,52 @@ class{
       }
 }(window.navigator.userAgent)
 
+    kagura.Sounder=class{
+  constructor(url){
+    this.url=url;
+  }
+  make(){
+    return new (class{
+      constructor(url){
+        this.elem=document.createElement("audio");
+        this.elem.src=url;
+      }
+      play(){
+        this.elem.play();
+      }
+      pause(){
+        this.elem.pause();
+      }
+      get time(){
+        return this.elem.currentTime;
+      }
+      set time(time){
+        this.elem.currentTime=time;
+      }
+      get max(){
+        return this.elem.max;
+      }
+      set max(max){
+        this.elem.max=max;
+      }
+      get volume(){
+        return this.elem.volume;
+      }
+      set volume(volume){
+        this.elem.volume=volume;
+      }
+      get ended(){
+        return this.elem.ended;
+      }
+      get speed(){
+        return this.elem.playbackRate;
+      }
+      set speed(speed){
+        this.elem.playbackRate=speed;
+      }
+    })(this.url);
+  }
+};
     kagura.obj.Object=class{
   constructor(object){
     this.obj=object;
@@ -555,7 +602,7 @@ class extends kagura.obj.Object{
     this.draw();
   }
 };
-    
+  
     kagura.Loader=class{
   constructor(loads,loaded){
     if(!loads){
