@@ -8,20 +8,20 @@ const kagura=function(){
         shape:{
           isNewTest:"",
         },
-        Group:{{!obj/group.js!}}
+        
       },
       Boxer:{{!api/boxer.js!}},
       FullScreen:{{!api/fullscreen.js!}},
       pixi:PIXI,
     };
     kagura.exitFullscreen=Document.exitFullscreen;
-  
+    kagura.Grid={{!api/grid.js!}}
     kagura.browser={{!browsercheck.js!}}(window.navigator.userAgent)
 
     kagura.obj.Object={{!obj/object.js!}}
     
     kagura.obj.Text={{!obj/text.js!}}
-
+    kagura.obj.Group={{!obj/group.js!}}
     kagura.obj.shape.GraphicsProto={{!obj/shape/graphicsproto.js!}};
     kagura.obj.shape.GraphicsFill={{!obj/shape/graphicsfill.js!}};
     kagura.obj.shape.Circle={{!obj/shape/circle.js!}}

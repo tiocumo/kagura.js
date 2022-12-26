@@ -139,13 +139,14 @@ const kagura=function(){
         scaleToWindow(this.app.view);
       });
     }
-    
+    this.view=this.app.view;
+    this.grid=new kagura.Grid(32,this.view.width,this.view.height)
     this.keyboard=new kagura.Keyboard(document);
     this.touchs=new kagura.Touches(this.view);
     
     if(options.autoFpsControl)this.fpsHistory=[];
     this.backgroundColor=options.backgroundColor;
-    this.view=this.app.view;
+    
     this.backFlameTime=new Date();
 
     
@@ -240,34 +241,7 @@ class{
         shape:{
           isNewTest:"",
         },
-        Group://Group
-//kagura.obj.Group
-//kagura objects bindle
-class extends PIXI.Container{
-  constructor(options){
-    options=objSafe({
-      x:0,y:0,rotation:0,alpha:1
-    },options);
-    super();
-    this.x=options.x;
-    this.y=options.y;
-    this.rotation=options.rotation;
-    this.alpha=options.alpha;
-  }
-  addChildTo(terget){
-    terget.addChild(this);
-    return this;
-  }
-  each(func){
-    let deletes=[];
-    this.children.forEach((elem,index)=>{
-      const result=func.call(elem,elem,index);
-      if(result===true){deletes.push(index)}
-    });
-    deletes.reverse().forEach(index=>this.children.splice(index,1));
-    return this;
-  }
-}
+        
       },
       Boxer://Boxer
 //kagura.Boxer
@@ -297,7 +271,29 @@ class{
       pixi:PIXI,
     };
     kagura.exitFullscreen=Document.exitFullscreen;
-  
+    kagura.Grid=(function(){
+  function Grid(n,w,h){
+    this.n=n;
+    this.w=w;
+    this.h=h;
+    this.vw=w/(2*n);
+    this.vh=h/(2*n);
+    this.xy=function(x,y){
+      return {
+        x:(this.vw*x)+this.w/2,
+        y:(this.vh*y)+this.h/2
+      };
+    };
+    this.x=function(x){return (this.vw*x)+this.w/2};
+    this.y=function(y){return (this.vh*y)+this.h/2};
+
+    this.c={
+      x:w/2,y:h/2
+    };
+  }
+  return Grid;
+})();
+
     kagura.browser=function(userAgent){
       userAgent=userAgent.toLowerCase();
       if(userAgent.indexOf('msie')!=-1||userAgent.indexOf('trident')!=-1){
@@ -379,7 +375,34 @@ class extends kagura.obj.Object{
   }
 }
 
-
+    kagura.obj.Group=//Group
+//kagura.obj.Group
+//kagura objects bindle
+class extends PIXI.Container{
+  constructor(options){
+    options=objSafe({
+      x:0,y:0,rotation:0,alpha:1
+    },options);
+    super();
+    this.x=options.x;
+    this.y=options.y;
+    this.rotation=options.rotation;
+    this.alpha=options.alpha;
+  }
+  addChildTo(terget){
+    terget.addChild(this);
+    return this;
+  }
+  each(func){
+    let deletes=[];
+    this.children.forEach((elem,index)=>{
+      const result=func.call(elem,elem,index);
+      if(result===true){deletes.push(index)}
+    });
+    deletes.reverse().forEach(index=>this.children.splice(index,1));
+    return this;
+  }
+}
     kagura.obj.shape.GraphicsProto=//GraphicsProto
 //Kagura.obj.shape.GraphicsProto
 //shapes prototype
