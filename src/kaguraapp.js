@@ -53,6 +53,8 @@ class{
       // scene's flame counter
       this.sceneFlame++;
 
+      this.grid.w=this.app.view.width;
+      this.grid.h=this.app.view.height;
       //Update Scene
       this.scene.update({
         sceneFlame:this.sceneFlame,

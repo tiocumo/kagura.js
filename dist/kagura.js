@@ -162,6 +162,8 @@ const kagura=function(){
       // scene's flame counter
       this.sceneFlame++;
 
+      this.grid.w=this.app.view.width;
+      this.grid.h=this.app.view.height;
       //Update Scene
       this.scene.update({
         sceneFlame:this.sceneFlame,
@@ -272,29 +274,43 @@ class{
       api:{}
     };
     kagura.exitFullscreen=Document.exitFullscreen;
-    kagura.Grid=(function(){
-  function Grid(n,w,h){
+    kagura.Grid=class{
+  constructor(n,w,h){
     this.n=n;
-    this.w=w;
-    this.h=h;
-    this.vw=w/(2*n);
-    this.vh=h/(2*n);
-    this.xy=function(x,y){
-      return {
-        x:(this.vw*x)+this.w/2,
-        y:(this.vh*y)+this.h/2
-      };
-    };
+    this._w=w;
+    this._h=h;
+    this.ud();
     this.x=function(x){return (this.vw*x)+this.w/2};
     this.y=function(y){return (this.vh*y)+this.h/2};
-
-    this.c={
-      x:w/2,y:h/2
+  }
+  xy(x,y){
+    return {
+      x:(this.vw*x)+this._w/2,
+      y:(this.vh*y)+this._h/2
     };
   }
-  return Grid;
-})();
-
+  ud(){
+    this.vw=this._w/(2*this.n);
+    this.vh=this._h/(2*this.n);
+    this.c={
+      x:this._w/2,y:this._h/2
+    };
+  }
+  set w(c){
+    this._w=c;
+    this.ud();
+  }
+  set h(c){
+    this._h=c;
+    this.ud();
+  }
+  get w(){
+    return this._w;
+  }
+  get h(){
+    return this._h;
+  }
+}
     kagura.browser=function(userAgent){
       userAgent=userAgent.toLowerCase();
       if(userAgent.indexOf('msie')!=-1||userAgent.indexOf('trident')!=-1){
@@ -365,7 +381,6 @@ class{
       kill(){
         this.elem.remove();
         delete this.elem;
-        console.log(this)
       }
     })(this.url);
   }
