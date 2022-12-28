@@ -560,15 +560,15 @@ class extends kagura.obj.Object{
   }
 };
     kagura.obj.shape.Rect=class extends kagura.obj.shape.GraphicsFill{
-      constructor(options){
-        options=objSafe({
-          width:100,height:100,fillet:0
-        },options);
-        super(options,(obj,options)=>{
-          this.drawFilletRect(0,0,options.width,options.height,options.fillet).endFill();
-        });
-      }
-    };
+  constructor(options){
+    options=objSafe({
+      width:100,height:100,fillet:0
+    },options);
+    super(options,(obj,options)=>{
+      obj.drawFilletRect(0,0,options.width,options.height,options.fillet).endFill();
+    });
+  }
+};
     kagura.obj.shape.Polygon=class extends kagura.obj.shape.GraphicsFill{
   constructor(options){
     options=objSafe({
@@ -585,7 +585,7 @@ class extends kagura.obj.Object{
       points:5,radius:10,innerRadius:20
     },options);
     super(options,(obj,options)=>{
-      this.drawStar(0,0,options.points,options.radius,options.innerRadius,0).endFill();
+      obj.drawStar(0,0,options.points,options.radius,options.innerRadius,0).endFill();
     });
       }
 };
@@ -595,7 +595,7 @@ class extends kagura.obj.Object{
       points:5,radius:10,innerRadius:0,outerRadius:Math.PI*2
     },options);
     super(options,(obj,options)=>{
-      this.drawTorus(0,0,options.innerRadius,options.outerRadius,options.startArc,options.endArc).endFill();
+      obj.drawTorus(0,0,options.innerRadius,options.outerRadius,options.startArc,options.endArc).endFill();
     });
   }
 };

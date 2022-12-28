@@ -4,7 +4,7 @@ class extends kagura.obj.shape.GraphicsFill{
       points:5,radius:10,innerRadius:0,outerRadius:Math.PI*2
     },options);
     super(options,(obj,options)=>{
-      this.drawTorus(0,0,options.innerRadius,options.outerRadius,options.startArc,options.endArc).endFill();
+      obj.drawTorus(0,0,options.innerRadius,options.outerRadius,options.startArc,options.endArc).endFill();
     });
   }
 }

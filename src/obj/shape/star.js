@@ -4,7 +4,7 @@ class extends kagura.obj.shape.GraphicsFill{
       points:5,radius:10,innerRadius:20
     },options);
     super(options,(obj,options)=>{
-      this.drawStar(0,0,options.points,options.radius,options.innerRadius,0).endFill();
+      obj.drawStar(0,0,options.points,options.radius,options.innerRadius,0).endFill();
     });
       }
 }
