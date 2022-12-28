@@ -130,7 +130,7 @@ const kagura=function(){
     this.app=new PIXI.Application(pixiArgs);
           
     this.app.renderer.resize(options.width, options.height);
-     
+    this.view=this.app.view;
     this.grid=new kagura.Grid(32,this.view.width,this.view.height);
     
     let StartScene=options.StartScene;
@@ -141,7 +141,7 @@ const kagura=function(){
         scaleToWindow(this.app.view);
       });
     }
-    this.view=this.app.view;
+    
     this.keyboard=new kagura.Keyboard(document);
     this.touchs=new kagura.Touches(this.view);
     
