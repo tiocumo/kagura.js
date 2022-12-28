@@ -21,7 +21,9 @@ class{
     this.app=new PIXI.Application(pixiArgs);
           
     this.app.renderer.resize(options.width, options.height);
-          
+     
+    this.grid=new kagura.Grid(32,this.view.width,this.view.height);
+    
     let StartScene=options.StartScene;
     this.scene=this.newClass(StartScene);
     if(options.autoViewSize){
@@ -31,7 +33,6 @@ class{
       });
     }
     this.view=this.app.view;
-    this.grid=new kagura.Grid(32,this.view.width,this.view.height);
     this.keyboard=new kagura.Keyboard(document);
     this.touchs=new kagura.Touches(this.view);
     
