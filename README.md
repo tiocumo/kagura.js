@@ -1,4 +1,4 @@
-# Kagura.js v0.2.2
+# Kagura.js
 ![kagurajs](https://raw.githubusercontent.com/tiocumo/kagura.js/main/asset/KaguraJSblack.svg)  
 It is a JavaScript's Game framework.
 ## Documentation
