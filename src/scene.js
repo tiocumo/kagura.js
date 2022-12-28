@@ -8,8 +8,9 @@ class{
     this.stage=this.app.stage;
     this.renderer=this.app.renderer;
   }
-  exit(nextScene){
+  exit(nextScene,passValue){
     // Chenge Scene
+    this.passValue=passValue
     this.nextScene=nextScene;
   }
   update(args){}

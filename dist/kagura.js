@@ -184,7 +184,7 @@ const kagura=function(){
         this.app.stage.children=[];
         
         //chenge
-        this.scene=this.newClass(this.scene.nextScene);
+        this.scene=this.newClass(this.scene.nextScene,this.scene.passValue);
       } 
 
       //Update Background color
@@ -203,7 +203,7 @@ const kagura=function(){
       setTimeout(this.roop.bind(this),1000/fps); //ReqAnimFrame
     }
   
-  newClass(Class){
+  newClass(Class,passValue={}){
       this.sceneFlame=0;
       this.sceneStartTime=new Date();
           
@@ -212,7 +212,9 @@ const kagura=function(){
       Class.prototype.height=this.app.renderer.height;
       Class.prototype.backgroundColor=this.options.backgroundColor;
       Class.prototype.grid=this.grid;
-      return new Class();
+      return new Class({
+        catches:passValue
+      });
     }
   mainroop(){
     // start system
@@ -233,8 +235,9 @@ class{
     this.stage=this.app.stage;
     this.renderer=this.app.renderer;
   }
-  exit(nextScene){
+  exit(nextScene,passValue){
     // Chenge Scene
+    this.passValue=passValue
     this.nextScene=nextScene;
   }
   update(args){}
