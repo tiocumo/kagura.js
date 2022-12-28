@@ -2,7 +2,7 @@ class{
   constructor(url){
     this.url=url;
   }
-  make(){
+  make(autokill=true){
     return new (class{
       constructor(url,autokill=true){
         this.elem=document.createElement("audio");
@@ -50,6 +50,6 @@ class{
         this.elem.remove();
         delete this.elem;
       }
-    })(this.url);
+    })(this.url,autokill);
   }
 }
