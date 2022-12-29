@@ -17,7 +17,7 @@ const kagura=function(){
     kagura.exitFullscreen=Document.exitFullscreen;
     kagura.Grid={{!api/grid.js!}}
     kagura.browser={{!browsercheck.js!}}(window.navigator.userAgent)
-
+    kagura.Timer={{!api/timer.js!}}
     kagura.Sounder={{!api/sounder.js!}};
     kagura.obj.Object={{!obj/object.js!}}
     
