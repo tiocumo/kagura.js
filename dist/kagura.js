@@ -315,6 +315,9 @@ class{
   get h(){
     return this._h;
   }
+  lxy(x,y){
+    return Object.values(this.xy(x,y))
+  }
 }
     kagura.browser=function(userAgent){
       userAgent=userAgent.toLowerCase();
