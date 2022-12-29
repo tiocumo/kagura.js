@@ -38,7 +38,7 @@ class{
           my.url=xhr.responseURL;
           my._text=new FileReader()
           my._text.readAsText(my.blobObj)
-          
+          my.sounder=new kagura.Sounder(my.blob);
         }
         setTimeout(()=>this.loadedOneXhr(load),0)
       };
@@ -53,6 +53,7 @@ class{
         my.pixiLoad=value;
         my.texture=value.texture;
         my.textures=value.textures
+        
       }
       this.loadedOneXhr("__pixiLoaded__")
     });
