@@ -3,6 +3,14 @@ class{
     if(!loads){
       console.error("Loads arguments is undefined.");return;
     }
+    const invurls={};
+    Object.keys(loads).forEach(key=>{
+      const url=loads[key];
+      if(kagura.api.isUrl(key)){
+        invurls[key]=url;
+      }
+    });
+    loads=invurls;
     this.assets={};
     if(!loaded)loaded=function(){};
     this.loaded=loaded;
@@ -39,6 +47,7 @@ class{
           my._text=new FileReader()
           my._text.readAsText(my.blobObj)
           my.sounder=new kagura.Sounder(my.blob);
+          my.howler=new kagura.api.Houler(my.blob);
         }
         setTimeout(()=>this.loadedOneXhr(load),0)
       };

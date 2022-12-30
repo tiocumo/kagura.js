@@ -14,7 +14,10 @@ const kagura=function(){
       pixi:PIXI,
       api:{}
     };
-    kagura.exitFullscreen=Document.exitFullscreen;
+    kagura.Howl=Howl;
+    kagura.api.Howler={{!api/howler.js!}};
+    kagura.api.isUrl={{!api/isurl.js!}};
+    kagura.exitFullscreen=document.exitFullscreen;
     kagura.Grid={{!api/grid.js!}}
     kagura.browser={{!browsercheck.js!}}(window.navigator.userAgent)
     kagura.Timer={{!api/timer.js!}}
